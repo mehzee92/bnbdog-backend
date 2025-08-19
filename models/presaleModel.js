@@ -81,7 +81,7 @@ async createPresale(data) {
       data.presale_tokens_per_eth, data.listing_tokens_per_eth, 
       data.soft_cap, data.total_supply, data.period,
       data.website, data.twitter, data.telegram,
-      data.short_description
+      data.description
     ];
 
     const [result] = await pool.query(sql, params);
