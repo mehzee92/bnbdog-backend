@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { ethers } = require("ethers");
-const { provider2, toEth } = require("./blockchain");
+const { provider2, CONTRACT_ADDRESS, toEth } = require("./blockchain");
 
 
 
@@ -150,7 +150,7 @@ const ABI = [
 
 async function presaleCreatedEvent() {
     try {
-        const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, ABI, provider2);
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider2);
         const latestBlock = await provider2.getBlockNumber();
         
         const fromBlock = latestBlock - 500;
@@ -188,7 +188,7 @@ async function presaleCreatedEvent() {
 async function updateProgress(uid) 
 {
     try {
-        const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, ABI, provider2);
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider2);
         const result = contract.presaleBasicInfoByUid(uid);
         return result;
     } 

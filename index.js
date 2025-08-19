@@ -18,5 +18,5 @@ app.use('/api/events', require('./routes/eventRoutes'));
 app.use('/api/upload', require('./routes/imageRoutes'));
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

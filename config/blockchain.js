@@ -1,14 +1,18 @@
 
 const { ethers } = require('ethers');
 
+const CONTRACT_ADDRESS='0x710A8F5aE44b5a1a18976D87B4442aAc9b9e9609';
+const BSC_TESTNET_RPC = "https://rpc.ankr.com/bsc_testnet_chapel/b5bba617b58751127eb6d670ae95edda22781a2aac79c032eb582bb78f16ee28"
+const RPC_URL = "https://data-seed-prebsc-1-s1.binance.org:8545";
+
 const CONTRACT_ABI = require('../ContractABI.json');
 
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+const provider = new ethers.JsonRpcProvider(RPC_URL);
 
-const provider2 = new ethers.JsonRpcProvider(process.env.BSC_TESTNET_RPC);
+const provider2 = new ethers.JsonRpcProvider(BSC_TESTNET_RPC);
 
 const contract = new ethers.Contract(
-  process.env.CONTRACT_ADDRESS,
+  CONTRACT_ADDRESS,
   CONTRACT_ABI,
   provider
 );

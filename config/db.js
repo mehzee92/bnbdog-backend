@@ -1,12 +1,14 @@
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'user_bnbdog',
-  password: process.env.DB_PASS || 'pass_bnbdog',
-  database: process.env.DB_NAME || 'bnbdog',
+  host: 'localhost',
+  user: 'user_bnbdog',
+  password: 'pass_bnbdog',
+  database: 'bnbdog',
   connectionLimit: 10,
 });
+
+
 
 
 // const pool = mysql.createPool({
