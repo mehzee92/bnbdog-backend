@@ -30,19 +30,19 @@ async getPresales({ query = '', page = 0 }) {
 },
   
 
-async getRecentPresales() {
-  const sql = `
-    SELECT *
-    FROM presale
-    ORDER BY id DESC
-    LIMIT 15
-  `;
-  const [rows] = await pool.query(sql);
-  return rows;
-},
+  async getRecentPresales() {
+    const sql = `
+      SELECT *
+      FROM presale
+      ORDER BY id DESC
+      LIMIT 15
+    `;
+    const [rows] = await pool.query(sql);
+    return rows;
+  },
 
-  async getPresaleById(id) {
-    const [rows] = await pool.query("SELECT * FROM presale WHERE id = ?", [id]);
+  async getPresaleByUid(uid) {
+    const [rows] = await pool.query("SELECT * FROM presale WHERE uid = ?", [uid]);
     return rows[0];
   },
 
@@ -65,18 +65,18 @@ async createPresale(data) {
   try {
     const sql = `
       INSERT INTO presale (
-        uid, token_name, token_address, token_symbol,
+        uid, token_name, token_address, token_symbol, token_logo,
         creator, tokens_for_sale, 
         presale_tokens_per_eth, listing_tokens_per_eth, soft_cap, total_supply,
         start_time, end_time,
         website, twitter, telegram,
         description, created_on
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL ? DAY), ?, ?, ?, ?, NOW())
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL ? DAY), ?, ?, ?, ?, NOW())
     `;
 
     const params = [
       data.uid,
-      data.token_name, data.token_address, data.token_symbol,
+      data.token_name, data.token_address, data.token_symbol, data.token_logo,
       data.creator,  data.tokens_for_sale, 
       data.presale_tokens_per_eth, data.listing_tokens_per_eth, 
       data.soft_cap, data.total_supply, data.period,
@@ -127,6 +127,7 @@ async updatePresale(id, data) {
       try {
         const sql = `
           UPDATE presale SET
+	    id = ?, 
             creator = ?, 
             token_address = ?,
             tokens_for_sale = ?,  
@@ -137,6 +138,7 @@ async updatePresale(id, data) {
         `;
 
         const params = [
+          data.id, 
           data.creator, 
           data.token_address,
           data.tokens_for_sale,  
@@ -158,6 +160,35 @@ async updatePresale(id, data) {
         console.error(`❌ Failed to update presale with uid ${data.uid}:`, err.message);
       }
     }
+  },
+
+
+async updatePresaleProgress(data) {
+  const {status, raised, tokensSold, uid } = data;
+  try {
+    const sql = `
+      UPDATE presale SET
+        status = ?, 
+        raised = ?, 
+        tokens_sold = ?
+      WHERE uid = ?;
+    `;
+
+    const params = [status, raised, tokensSold, uid];
+    const [rows] = await pool.query(sql, params);
+
+    if (rows.affectedRows === 0) {
+      console.warn(`⚠️ No record found for uid ${uid}, nothing updated.`);
+      return {status:"error", message:`⚠️ No record found for uid ${uid}, nothing updated.`}
+    } else {
+      return rows;
+    }
+  } catch (err) {
+    console.error(`❌ Failed to update presale with uid ${uid}:`, err.message);
+    return {status:"error", message:err.message}
   }
+}
+
+
 
 };

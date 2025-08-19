@@ -2,19 +2,156 @@ require('dotenv').config();
 const { ethers } = require("ethers");
 const { provider2, toEth } = require("./blockchain");
 
+
+
 const ABI = [
-    "event PresaleCreated(uint256 indexed id, uint256 indexed uid, address creatar, address saleToken, uint256 tokensForSale, uint256 tokensPerEth, uint256 startTime, uint256 endTime)"
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "uid",
+        "type": "uint256"
+      }
+    ],
+    "name": "presaleBasicInfoByUid",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "uid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "creator",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "saleToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokensForSale",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokensSold",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokensPerEth",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "softCap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "raised",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "endTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "state",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Presale",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "uid",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "saleToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokensForSale",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokensPerEth",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "PresaleCreated",
+    "type": "event"
+  }
 ];
 
+
+
+
+
+
 async function presaleCreatedEvent() {
-
-
-
-    
-
     try {
         const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, ABI, provider2);
-        const latestBlock = await provider2.getBlockNumber()-6830;
+        const latestBlock = await provider2.getBlockNumber();
         
         const fromBlock = latestBlock - 500;
         const events = await contract.queryFilter(
@@ -46,6 +183,25 @@ async function presaleCreatedEvent() {
 }
 
 
+
+
+async function updateProgress(uid) 
+{
+    try {
+        const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, ABI, provider2);
+        const result = contract.presaleBasicInfoByUid(uid);
+        return result;
+    } 
+    catch (err) 
+    {
+        console.log(err);
+        return {};
+    }
+}
+
+
+
 module.exports = {
-    presaleCreatedEvent
+    presaleCreatedEvent,
+    updateProgress
 };
