@@ -72,6 +72,7 @@ router.get('/update-lastest', async (req, res) => {
 // GET /api/presales/update-lastest
 router.get('/update-progress', async (req, res) => {
   const uid = req.query.uid;
+
   try 
   {
     const result = await presaleCreatedEvent.updateProgress(uid);
@@ -81,7 +82,7 @@ router.get('/update-progress', async (req, res) => {
     resp.tokensSold = result[5].toString();
     resp.raised =  result[8].toString();
     resp.status =  statuses[result[11].toString()];
-
+  
     if(result.uid)
     {
       await presaleModel.updatePresaleProgress(resp);
@@ -91,9 +92,12 @@ router.get('/update-progress', async (req, res) => {
   } 
   catch (err) 
   {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', uid, ...err });
   }
 });
+
+
+
 
 
 // GET /api/presales/:id

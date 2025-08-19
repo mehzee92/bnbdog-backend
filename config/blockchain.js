@@ -34,4 +34,5 @@ function toWei(val)
 	return val;          
 }
 
-module.exports = { provider, provider2, contract, toEth, toWei };
+module.exports = { provider, provider2, CONTRACT_ABI, CONTRACT_ADDRESS, 
+	BSC_TESTNET_RPC, RPC_URL, contract, round, toEth, toWei };

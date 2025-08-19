@@ -146,8 +146,6 @@ const ABI = [
 
 
 
-
-
 async function presaleCreatedEvent() {
     try {
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider2);
@@ -159,8 +157,6 @@ async function presaleCreatedEvent() {
             fromBlock,
             latestBlock
         );
-
-        console.log({latestBlock, fromBlock});
 
         const formattedEvents = events.map(event => ({
             id: event.args[0].toString(),
@@ -190,6 +186,7 @@ async function updateProgress(uid)
     try {
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider2);
         const result = contract.presaleBasicInfoByUid(uid);
+        console.log({result, CONTRACT_ADDRESS})
         return result;
     } 
     catch (err) 
