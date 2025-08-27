@@ -4,16 +4,17 @@ module.exports = {
 
 
 
-async getPresales({ query = '', page = 0 }) {
+async getPresales(query) {
+  const page = query.page || 0;
   const perPage = 10;
   const startAt = page * perPage;
 
   let conditions = '';
   let params = [];
 
-  if (query.length > 0) {
+  if (query && query.q) {
     conditions = "WHERE token_name LIKE ?";
-    params = [`%${query}%`];
+    params = [`%${query.q}%`];
   }
 
   const sql = `
@@ -29,6 +30,19 @@ async getPresales({ query = '', page = 0 }) {
   return rows;
 },
   
+
+
+
+  async getPresaleById(uid) {
+    const sql = `
+      SELECT *
+      FROM presale
+      WHERE uid=?
+    `;
+    const [rows] = await pool.query(sql, [uid]);
+    return rows[0];
+  },
+
 
   async getRecentPresales() {
     const sql = `
