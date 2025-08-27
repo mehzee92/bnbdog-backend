@@ -69,41 +69,10 @@ router.get('/update-lastest', async (req, res) => {
 });
 
 
-// GET /api/presales/update-lastest
-router.get('/update-progress', async (req, res) => {
-  const uid = req.query.uid;
-
-  try 
-  {
-    const result = await presaleCreatedEvent.updateProgress(uid);
-    const statuses = ["Active", "Finalized", "Canceled", "Blacklist"];
-    const resp = {}    
-    resp.uid = result[1].toString();
-    resp.tokensSold = result[5].toString();
-    resp.raised =  result[8].toString();
-    resp.status =  statuses[result[11].toString()];
-  
-    if(result.uid)
-    {
-      await presaleModel.updatePresaleProgress(resp);
-    }    
-    
-    res.json(resp);
-  } 
-  catch (err) 
-  {
-    res.status(500).json({ error: 'Internal Server Error', uid, ...err });
-  }
-});
-
-
-
-
-
 // GET /api/presales/:id
-router.get('/:uid', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const data = await presaleModel.getPresaleByUid(req.params.uid);
+    const data = await presaleModel.getPresaleById(req.params.id);
     if (!data) return res.status(404).json({ error: 'Presale not found' });
     res.json(data);
   } catch (err) {

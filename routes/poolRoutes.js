@@ -12,6 +12,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+router.get('/recent', async (req, res) => {
+  try {
+    const data = await poolModel.getLatestPools(req.query);
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching pools', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.get('/:uid', async (req, res) => {
   try {
     const data = await poolModel.getPoolByUid(req.params.uid);
