@@ -1,6 +1,6 @@
 <?php
 include './../../db.php';
-// $uri=='/api/pool/new'
+// $uri=='/api/pools/new'
 if($method=='POST') 
 {
     $name = $json["name"];

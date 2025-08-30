@@ -1,6 +1,6 @@
 <?php
 include './../../db.php';
-// $uri=='/api/stake/delete'
+// $uri=='/api/stakes/delete'
 if($method=='POST') 
 {
   $uid = $json["uid"];

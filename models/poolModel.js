@@ -9,7 +9,7 @@ module.exports = {
       const startAt = page * perPage;
       let conditions = " ";
       let params = [];
-
+      
       if (query && query.q) 
       {
         conditions += " AND (name LIKE ? OR detail LIKE ?)";

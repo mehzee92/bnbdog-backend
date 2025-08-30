@@ -6,8 +6,8 @@ const stakeModel = require('../models/stakeModel');
 // POST /api/stake/new
 router.post('/new', async (req, res) => {
     try {
-        const { uid, index_no, staker, amount, chain, reward = 0 } = req.body;
-        const result = await stakeModel.createStake(uid, index_no, chain, staker, amount, reward);
+        const { uid, index_no, staker, amount, reward = 0 } = req.body;
+        const result = await stakeModel.createStake(uid, index_no, staker, amount, reward);
         res.status(200).json(result);
     } catch (error) {
         console.error('Error creating stake', error);
@@ -18,8 +18,8 @@ router.post('/new', async (req, res) => {
 // POST /api/stake/unstaked
 router.post('/unstaked', async (req, res) => {
     try {
-        const { index_no, uid, address, chain } = req.body;
-        const result = await stakeModel.unstake(index_no, uid, address, chain);
+        const { index_no, uid, address } = req.body;
+        const result = await stakeModel.unstake(index_no, uid, address);
         res.status(200).json({ status: "done" });
     } catch (error) {
         console.error('Error unstaking', error);
@@ -30,8 +30,8 @@ router.post('/unstaked', async (req, res) => {
 // GET /api/my-stakes
 router.get('/my-stakes', async (req, res) => {
     try {
-        const { address, chain } = req.query;
-        const rows = await stakeModel.getMyStakes(address, chain);
+        const { address} = req.query;
+        const rows = await stakeModel.getMyStakes(address);
         res.status(200).json(rows);
     } catch (error) {
         console.error('Error fetching stakes', error);
@@ -42,8 +42,8 @@ router.get('/my-stakes', async (req, res) => {
 // GET /api/my-positions
 router.get('/my-positions', async (req, res) => {
     try {
-        const { uid, staker, chain } = req.query;
-        const rows = await stakeModel.getMyPositions(uid, staker, chain);
+        const { uid, staker } = req.query;
+        const rows = await stakeModel.getMyPositions(uid, staker);
         res.status(200).json(rows);
     } catch (error) {
         console.error('Error fetching positions', error);

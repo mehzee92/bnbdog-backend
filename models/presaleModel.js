@@ -136,44 +136,36 @@ async updatePresale(id, data) {
 },
 
 
+/*
+
+        res.id = result[0].toString();
+        res.tokensSold = result[1].toString();
+        res.raised = result[2].toString();
+        res.state = result[3].toString();
+        res.uid = uid;
+
+*/
+
   async updatePresaleInfo(result) {
-    for (const data of result) {
+      const { id, uid, raised, tokensSold, state } = result;
+      console.log(result);
+      let status = "Active";
       try {
         const sql = `
           UPDATE presale SET
-	    id = ?, 
-            creator = ?, 
-            token_address = ?,
-            tokens_for_sale = ?,  
-            presale_tokens_per_eth = ?, 
-            blockNumber = ?, 
-            hash = ?
-          WHERE uid = ?;
+	          id = ?, 
+            raised = ${raised}, 
+            tokens_sold = ?,
+            status = ?
+            WHERE uid = ?;
         `;
-
-        const params = [
-          data.id, 
-          data.creator, 
-          data.token_address,
-          data.tokens_for_sale,  
-          data.presale_tokens_per_eth, 
-          data.blockNumber, 
-          data.hash,
-          data.uid
-        ];
+        const params = [id, tokensSold, status, uid];
 
         const [rows] = await pool.query(sql, params);
-
-        // Optional logging
-        if (rows.affectedRows === 0) {
-          console.warn(`⚠️ No record found for uid ${data.uid}, nothing updated.`);
-        } else {
-          console.log(`✅ Updated presale with uid ${data.uid}`);
-        }
+        return {...result, sql};
       } catch (err) {
         console.error(`❌ Failed to update presale with uid ${data.uid}:`, err.message);
       }
-    }
   },
 
 

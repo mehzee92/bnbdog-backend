@@ -19,8 +19,7 @@ router.get('/', async (req, res) => {
 // GET /api/presales/recent
 router.get('/recent', async (req, res) => {
   try {
-    const chain = req.query.chain || 0;
-    const data = await presaleModel.getRecentPresales(chain);
+    const data = await presaleModel.getRecentPresales();
     res.json(data);
   } catch (err) {
     console.error('Error fetching recent presales', err);
@@ -54,17 +53,14 @@ router.post('/new', async (req, res) => {
 
 
 // GET /api/presales/update-lastest
-router.get('/update-lastest', async (req, res) => {
+router.get('/update-lastest/:uid', async (req, res) => {
   try {
-    const result = await presaleCreatedEvent.presaleCreatedEvent();
-    if(result.length>0)
-    {
-      await presaleModel.updatePresaleInfo(result);
-    }
-    res.json(result);
+    const result = await presaleCreatedEvent.presaleCreatedEvent(req.params.uid);
+    const reslt = await presaleModel.updatePresaleInfo(result);
+    res.json(reslt);
   } catch (err) {
     console.error('Error creating presale', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error'+res.message });
   }
 });
 

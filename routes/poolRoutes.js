@@ -23,6 +23,19 @@ router.get('/recent', async (req, res) => {
   }
 });
 
+
+router.post('/new', async (req, res) => {
+  console.log({...req.body});
+  try {
+    const uid = await poolModel.createPool(req.body);
+    res.json({ uid });
+  } catch (err) {
+    console.error('Error creating pool', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 router.get('/:uid', async (req, res) => {
   try {
     const data = await poolModel.getPoolByUid(req.params.uid);
@@ -36,14 +49,6 @@ router.get('/:uid', async (req, res) => {
 
 
 
-router.post('/', async (req, res) => {
-  try {
-    const uid = await poolModel.createPool(req.body);
-    res.json({ uid });
-  } catch (err) {
-    console.error('Error creating pool', err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+
 
 module.exports = router;
