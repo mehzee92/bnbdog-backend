@@ -162,7 +162,7 @@ async updatePresale(id, data) {
         const params = [id, tokensSold, status, uid];
 
         const [rows] = await pool.query(sql, params);
-        return {...result, sql};
+        return {...result};
       } catch (err) {
         console.error(`❌ Failed to update presale with uid ${data.uid}:`, err.message);
       }
