@@ -1,9 +1,9 @@
 
 const { ethers } = require('ethers');
 
-const PRESALE_CONTRACT_ADDRESS='0x7efAaA9627FC0f11f5D400ea318b8F0e62f580Ce';
+const PRESALE_CONTRACT_ADDRESS='0x0D1495DE734cfDAde598ab0f6520A5a46FA25b8a';
 const BSC_TESTNET_RPC = "https://rpc.ankr.com/bsc/b5bba617b58751127eb6d670ae95edda22781a2aac79c032eb582bb78f16ee28"
-const RPC_URL = "https://data-seed-prebsc-1-s1.binance.org:8545";
+const RPC_URL = "https://bsc-dataseed.bnbchain.org";
 
 const PRESALE_ABI = require('../PRESALE_ABI.json');
 
