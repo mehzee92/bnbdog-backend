@@ -1,7 +1,7 @@
 
 const { ethers } = require('ethers');
 
-const PRESALE_CONTRACT_ADDRESS='0x0D1495DE734cfDAde598ab0f6520A5a46FA25b8a';
+const PRESALE_CONTRACT_ADDRESS='0x9bebB43712De6DFe472d1f8Fc9C58a1CE2c8fD52';
 const BSC_TESTNET_RPC = "https://rpc.ankr.com/bsc/b5bba617b58751127eb6d670ae95edda22781a2aac79c032eb582bb78f16ee28"
 const RPC_URL = "https://bsc-dataseed.bnbchain.org";
 
