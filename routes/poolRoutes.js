@@ -25,7 +25,6 @@ router.get('/recent', async (req, res) => {
 
 
 router.post('/new', async (req, res) => {
-  console.log({...req.body});
   try {
     const uid = await poolModel.createPool(req.body);
     res.json({ uid });
