@@ -108,6 +108,24 @@ async createPresale(data) {
 },  
 
 
+
+async updatePresaleDetail(data) {
+  const { id, tokensSold, bnbRaised, status, uid } = data;
+  try {
+    const sql = `
+      UPDATE presale SET id=?, tokens_sold=?, raised=? WHERE uid=?`;
+
+    const params = [id, tokensSold, bnbRaised, status, uid];
+
+    const [result] = await pool.query(sql, params);
+    return result.insertId;
+
+  } catch (error) {
+    console.error('Error creating presale:', error);
+    throw new Error('Failed to create presale due to a database error.');
+  }
+},  
+
 async updatePresale(id, data) {
   const sql = `
     UPDATE presale SET

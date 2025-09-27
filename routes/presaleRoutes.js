@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const presaleModel = require('../models/presaleModel');
+const blockchain = require('../config/blockchain');
 const presaleCreatedEvent = require("./../config/presaleCreatedEvent")
 
 // GET /api/presales
@@ -26,6 +27,21 @@ router.get('/recent', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+// GET /api/presales/recent
+router.get('/update-presale-detail', async (req, res) => {
+  try {
+    const uid = req.query.uid;
+    const data = await blockchain.updatePresaleDetail(uid);
+    await presaleModel.updatePresaleDetail(data);
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching recent presales', err);
+    res.status(500).json({ error: err.message,  });
+  }
+});
+
 
 
 
